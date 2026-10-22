@@ -59,6 +59,28 @@ function openPortal(key){$("communityStats").classList.add("hidden");let old=saf
     let pw = $("registerPassword").value;
     let repeat = $("registerPasswordRepeat").value;
 
+    if (!name || !pw || !repeat) {
+        $("registerError").textContent =
+            "ALLE FELDER AUSFÜLLEN.";
+        return;
+    }
+
+    if (pw !== repeat) {
+        $("registerError").textContent =
+            "PASSWÖRTER STIMMEN NICHT ÜBEREIN.";
+        return;
+    }
+
+    const fakeEmail = name.toLowerCase() + "@lesehelden.club";
+
+    console.log("Registriere:", fakeEmail);
+
+    $("registerError").textContent =
+        "TEST ERFOLGREICH";
+}
+    let pw = $("registerPassword").value;
+    let repeat = $("registerPasswordRepeat").value;
+
     if(!name || !pw || !repeat){
         $("registerError").textContent =
             "ALLE FELDER AUSFÜLLEN.";
