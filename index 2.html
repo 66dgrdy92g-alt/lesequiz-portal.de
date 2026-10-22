@@ -56,30 +56,7 @@ const $=id=>document.getElementById(id);const norm=s=>String(s).toLocaleLowerCas
 function safeParse(k,f){try{return JSON.parse(window.localStorage.getItem(k)||JSON.stringify(f))}catch{return f}}
 function bookKey(b){return [b.title,b.author,b.isbn||""].map(norm).join("|")}function uniqueBooks(items){let seen=new Set();return items.filter(b=>{let k=bookKey(b);if(seen.has(k))return false;seen.add(k);return true})}books=uniqueBooks(books);function save(){try{window.localStorage.setItem("lhc_user_"+norm(user.username),JSON.stringify(user));window.localStorage.setItem(ROLE_KEY,JSON.stringify(roles));window.localStorage.setItem(INVITE_KEY,JSON.stringify(invites))}catch{}}
 function openPortal(key){$("communityStats").classList.add("hidden");let old=safeParse("lhc_user_"+key,{});user={username:roles[key].username,role:roles[key].role,completed:old.completed||{},readBooks:old.readBooks||{},achievements:Array.isArray(old.achievements)?old.achievements:[]};save();$("login").classList.add("hidden");$("register").classList.add("hidden");$("portal").classList.remove("hidden");updateDashboard();showBooks()}function login(){let name=$("username").value.trim(),pw=$("password").value.trim();if(!name||!pw){$("loginError").textContent="BENUTZERNAME UND PASSWORT EINGEBEN.";return}roles=safeParse(ROLE_KEY,{});let key=norm(name),isTaz=key==="taz"&&pw==="Devil",isDark=key==="dark"&&pw==="Angle";if(isTaz&&!roles[key])roles[key]={username:"Taz",role:"admin",password:"Devil"};if(isDark&&!roles[key])roles[key]={username:"Dark",role:"moderator",password:"Angle"};if(!roles[key]){$("loginError").textContent="BENUTZER NICHT GEFUNDEN. BITTE REGISTRIEREN.";return}if(roles[key].password&&pw!==roles[key].password){$("loginError").textContent="PASSWORT IST NICHT KORREKT.";return}openPortal(key)}function registerUser(){let name = $("registerUsername").value.trim();
-    let pw = $("registerPassword").value;
-    let repeat = $("registerPasswordRepeat").value;
-
-    if (!name || !pw || !repeat) {
-        $("registerError").textContent =
-            "ALLE FELDER AUSFÜLLEN.";
-        return;
-    }
-
-    if (pw !== repeat) {
-        $("registerError").textContent =
-            "PASSWÖRTER STIMMEN NICHT ÜBEREIN.";
-        return;
-    }
-
-    const fakeEmail = name.toLowerCase() + "@lesehelden.club";
-
-    console.log("Registriere:", fakeEmail);
-
-    $("registerError").textContent =
-        "TEST ERFOLGREICH";
-}
-    let pw = $("registerPassword").value;
-    let repeat = $("registerPasswordRepeat").value;
+    
 
     if(!name || !pw || !repeat){
         $("registerError").textContent =
